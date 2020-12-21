@@ -1,0 +1,13 @@
+<?xml version="1.0" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <embeddable name="App\Domain\Tournament\TournamentConfig">
+        <field name="bracket" type="tournament_bracket"/>
+        <field name="divisionCount" type="integer"/>
+        <field name="participantCount" type="integer"/>
+        <field name="qualifyCount" type="integer"/>
+    </embeddable>
+
+</doctrine-mapping>

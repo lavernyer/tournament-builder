@@ -1,0 +1,30 @@
+<?xml version="1.0" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="draw_division"
+            name="App\Domain\Draw\Division"
+            change-tracking-policy="DEFERRED_EXPLICIT">
+
+        <id name="id" type="integer">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <field name="key"/>
+
+        <many-to-one field="stage" target-entity="App\Domain\Draw\Stage" inversed-by="divisions">
+            <join-column name="stage_id" referenced-column-name="incremental_id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+
+        <one-to-many field="rounds" target-entity="App\Domain\Draw\Round" mapped-by="division">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <order-by>
+                <order-by-field name="id" />
+            </order-by>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

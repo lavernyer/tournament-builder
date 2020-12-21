@@ -1,0 +1,31 @@
+<?xml version="1.0" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="tournament"
+            name="App\Domain\Tournament\Tournament"
+            change-tracking-policy="DEFERRED_EXPLICIT">
+
+        <id name="incrementalId" type="integer">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <field name="id" type="tournament_id" unique="true"/>
+        <embedded name="config" class="App\Domain\Tournament\TournamentConfig"/>
+        <field name="status" type="tournament_status"/>
+        <one-to-one field="winner" target-entity="App\Domain\Tournament\Participant" mapped-by="tournament" />
+        <field name="createdOn" type="datetime_immutable"/>
+        <field name="updatedOn" type="datetime_immutable"/>
+
+        <one-to-many field="participants" target-entity="App\Domain\Tournament\Participant" mapped-by="tournament">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <order-by>
+                <order-by-field name="id" />
+            </order-by>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>

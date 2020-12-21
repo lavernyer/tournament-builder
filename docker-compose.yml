@@ -1,0 +1,46 @@
+version: '3.5'
+
+services:
+    app:
+        build:
+            context: ./docker/php-fpm
+        restart: on-failure
+        depends_on:
+            - db
+        volumes:
+            - ".:/app:rw,cached"
+        links:
+            - db
+        environment:
+            PHP_TIMEZONE: $TZ
+            TZ: $TZ
+
+    web:
+        build:
+            context: ./docker/nginx
+        restart: on-failure
+        ports:
+            - 80
+        depends_on:
+            - app
+        links:
+            - app
+        volumes:
+            - ".:/app:rw,cached"
+
+    db:
+        image: postgres:12-alpine
+        restart: on-failure
+        ports:
+            - 5432
+        volumes:
+            - "pg_data:/var/lib/postgresql/data:cached"
+            - "./var/data:/tmp"
+        environment:
+            POSTGRES_USER: dev
+            POSTGRES_PASSWORD: dev
+            POSTGRES_DB: dev
+
+volumes:
+    pg_data:
+

@@ -1,0 +1,28 @@
+<?xml version="1.0" ?>
+<doctrine-mapping xmlns="http://doctrine-project.org/schemas/orm/doctrine-mapping"
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                  xsi:schemaLocation="http://doctrine-project.org/schemas/orm/doctrine-mapping http://doctrine-project.org/schemas/orm/doctrine-mapping.xsd">
+
+    <entity table="draw_round"
+            name="App\Domain\Draw\Round"
+            change-tracking-policy="DEFERRED_EXPLICIT">
+
+        <id name="id" type="integer">
+            <generator strategy="IDENTITY"/>
+        </id>
+
+        <many-to-one field="division" target-entity="App\Domain\Draw\Division" inversed-by="rounds">
+            <join-column name="division_id" nullable="false" on-delete="CASCADE" />
+        </many-to-one>
+
+        <one-to-many field="matchups" target-entity="App\Domain\Draw\Matchup" mapped-by="round">
+            <cascade>
+                <cascade-persist />
+            </cascade>
+            <order-by>
+                <order-by-field name="id" />
+            </order-by>
+        </one-to-many>
+    </entity>
+
+</doctrine-mapping>
